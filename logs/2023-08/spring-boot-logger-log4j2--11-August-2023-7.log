@@ -1,0 +1,62 @@
+2023-08-11 18:12:08,026 INFO o.s.b.StartupInfoLogger [restartedMain] Starting ServletInitializer using Java 20.0.2 on DESKTOP-8916JOV with PID 16188 (E:\Spring_Security_Temp-main (2)\Spring_Security_Temp-main\target\classes started by PC in E:\Spring_Security_Temp-main (2)\Spring_Security_Temp-main)
+2023-08-11 18:12:08,034 INFO o.s.b.SpringApplication [restartedMain] The following profiles are active: dev
+2023-08-11 18:12:08,105 INFO o.s.b.l.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\PC\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.1.0.0\ojdbc8-21.1.0.0.jar referenced one or more files that do not exist: file:/C:/Users/PC/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.1.0.0/oraclepki.jar
+2023-08-11 18:12:08,105 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-08-11 18:12:08,107 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-08-11 18:12:08,768 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-11 18:12:08,841 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 66 ms. Found 14 JPA repository interfaces.
+2023-08-11 18:12:09,428 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@2fc0f50f' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-08-11 18:12:09,437 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-08-11 18:12:09,775 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2023-08-11 18:12:09,786 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8080"]
+2023-08-11 18:12:09,787 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-08-11 18:12:09,787 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.50]
+2023-08-11 18:12:09,855 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-08-11 18:12:09,855 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 1748 ms
+2023-08-11 18:12:10,053 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-11 18:12:10,120 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.4.32.Final
+2023-08-11 18:12:10,244 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-08-11 18:12:10,366 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-08-11 18:12:11,405 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-08-11 18:12:11,434 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.Oracle10gDialect
+2023-08-11 18:12:17,102 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-11 18:12:17,120 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-11 18:12:18,511 INFO o.s.s.w.a.p.j.WebXmlMappableAttributesRetriever [restartedMain] Retrieved role-name 'ROLE_USER' from web.xml
+2023-08-11 18:12:20,136 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@b189ec9, org.springframework.security.web.context.SecurityContextPersistenceFilter@5776502a, org.springframework.security.web.header.HeaderWriterFilter@6feca3cb, org.springframework.web.filter.CorsFilter@6f8b7608, org.springframework.security.web.authentication.logout.LogoutFilter@481008b8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53816050, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6265dd7d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@131db4f0, org.springframework.security.web.session.SessionManagementFilter@54098880, org.springframework.security.web.access.ExceptionTranslationFilter@15048668, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@721c6981]
+2023-08-11 18:12:20,214 INFO s.d.s.w.PropertySourcedRequestMappingHandlerMapping [restartedMain] Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-08-11 18:12:20,656 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-08-11 18:12:20,736 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page: class path resource [public/index.html]
+2023-08-11 18:12:22,439 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8080"]
+2023-08-11 18:12:22,502 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2023-08-11 18:12:22,505 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Context refreshed
+2023-08-11 18:12:22,547 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Found 1 custom documentation plugin(s)
+2023-08-11 18:12:22,618 INFO s.d.s.w.s.ApiListingReferenceScanner [restartedMain] Scanning for api listing references
+2023-08-11 18:12:23,015 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: openapiJsonUsingGET_1
+2023-08-11 18:12:23,024 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: AllPostOfficeUsingGET_1
+2023-08-11 18:12:23,099 INFO o.s.b.StartupInfoLogger [restartedMain] Started ServletInitializer in 15.376 seconds (JVM running for 16.414)
+2023-08-11 18:12:39,400 INFO o.a.j.l.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-08-11 18:12:39,400 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2023-08-11 18:12:39,401 INFO o.s.w.s.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 0 ms
+2023-08-11 18:12:39,589 DEBUG o.h.e.j.s.SqlStatementLogger [http-nio-8080-exec-1] select tariffplan0_.plan_code as plan_code1_14_0_, tariffplan0_.admin as admin2_14_0_, tariffplan0_.char_word as char_word3_14_0_, tariffplan0_.decoration_enable as decoration_enable4_14_0_, tariffplan0_.decoration_price as decoration_price5_14_0_, tariffplan0_.delivery_enable as delivery_enable6_14_0_, tariffplan0_.delivery_price as delivery_price7_14_0_, tariffplan0_.inquiry_price as inquiry_price8_14_0_, tariffplan0_.plan_name as plan_name9_14_0_, tariffplan0_.po_price as po_price10_14_0_, tariffplan0_.sales_tax as sales_tax11_14_0_, tariffplan0_.sms_enable as sms_enable12_14_0_, tariffplan0_.sms_price as sms_price13_14_0_, tariffplan0_.template_enable as template_enable14_14_0_, tariffplan0_.template_price as template_price15_14_0_, tariffplan0_.urgent_enable as urgent_enable16_14_0_, tariffplan0_.urgent_price as urgent_price17_14_0_, tariffplan0_.words_count as words_count18_14_0_, tariffplan0_.word_price as word_price19_14_0_ from stgh.tgh_tariff_plan tariffplan0_ where tariffplan0_.plan_code=?
+2023-08-11 18:12:39,608 TRACE o.h.t.d.s.BasicBinder [http-nio-8080-exec-1] binding parameter [1] as [VARCHAR] - [test2]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([admin2_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([char_word3_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([decoration_enable4_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([decoration_price5_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([delivery_enable6_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([delivery_price7_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([inquiry_price8_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([plan_name9_14_0_] : [VARCHAR]) - [string]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([po_price10_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([sales_tax11_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([sms_enable12_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([sms_price13_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([template_enable14_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([template_price15_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([urgent_enable16_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([urgent_price17_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([words_count18_14_0_] : [INTEGER]) - [0]
+2023-08-11 18:12:39,692 TRACE o.h.t.d.s.BasicExtractor [http-nio-8080-exec-1] extracted value ([word_price19_14_0_] : [BIGINT]) - [0]
+2023-08-11 18:38:57,117 WARN c.z.h.p.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=23m15s552ms361µs).
+2023-08-11 19:54:12,428 WARN c.z.h.p.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h1m15s178ms318µs600ns).
+2023-08-11 23:33:41,151 WARN c.z.h.p.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h32m57s627ms965µs700ns).

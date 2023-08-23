@@ -1,0 +1,26 @@
+FixedVoiceInstMSAN	3022	FME	FME	FME				2967	Version 3	0	3023	0	0	0						
+FixedVoiceInstMSAN	3023	Infrastructure	Infrastructure	Infrastructure				2667	Version 11	0	3026	0	0	0						
+FixedVoiceInstMSAN	3024	Scheduling	Scheduling	FME				2506	Version 32	1	3022	0	0	0						
+FixedVoiceInstMSAN	3025	BackOffice	BackOffice	BackOffice				2287	Version 6	0		0	0	0						
+FixedVoiceInstMSAN	3026	FTTH Team Leader	FTTH Team Leader	FTTH Team Leader				2287	Version 6	0		0	0	0						
+FVInstallationMSAN	3022	FME	FME	FME				2967	Version 4	0	3023	0	0	0						
+FVInstallationMSAN	3023	Infrastructure	Infrastructure	Infrastructure				2667	Version 11	0	3026	0	0	0						
+FVInstallationMSAN	3024	Scheduling	Scheduling	FME				2506	Version 32	1	3022	0	0	0						
+FVInstallationMSAN	3025	BackOffice	BackOffice	BackOffice				2287	Version 6	0		0	0	0						
+FVInstallationMSAN	3026	FTTH Team Leader	FTTH Team Leader	FTTH Team Leader				2287	Version 6	0		0	0	0						
+FVDeactivation	3513	Termination	Technical Data	Technical Data				3067	Version 1	1	9999	0	0	0						
+FVDeactivation	9999	FME	FME	FME				2967	Version 4	0	3023	0	0	0						
+FVManualSurvey	3513	Project Team	Project Team	Project Team				2988	Version 3	1	3514	0	0	0						
+FVManualSurvey	3514	FME	FME	FME				2988	Version 4			0	0	0						
+FVNewLocation	3529	FME	FME	FME				2967	Version 5	0		0	0	0						
+FVCHGPhNoSameLoc	3533	Technical Data	Technical Data	Technical Data				3228	Version 1	0		0	0	0						
+FVNewLocation	3531	Scheduling	Scheduling	FME				2506	Version 34	0	3529	0	0	0						
+FVCHGPhNoSameLoc	3534	Team Leader	Team Leader	Team Leader				3267	Version 1	1	3533	1	0	0						
+FVNewLocation	3532	FTTH Team Leader	FTTH Team Leader	FTTH Team Leader				3267	Version 1	1	3531	1	0	0						
+FVChPhNoManualSurvey	3535	Project Team	Project Team	Project Team				2988	Version 5	1	3536	0	0	0						
+FVChPhNoManualSurvey	3536	FME	FME	FME				2988	Version 4			0	0	0						
+FVChPhoneNoNewLoc	3537	FME	FME	FME				2967	Version 6	0	3538	0	0	0						
+FVChPhoneNoNewLoc	3538	Infrastructure	Infrastructure	Infrastructure				2667	Version 11	0	3541	0	0	0						
+FVChPhoneNoNewLoc	3539	Scheduling	Scheduling	FME				2506	Version 32	1	3537	0	0	0						
+FVChPhoneNoNewLoc	3540	BackOffice	BackOffice	BackOffice				2287	Version 6	0		0	0	0						
+FVChPhoneNoNewLoc	3541	FTTH Team Leader	FTTH Team Leader	FTTH Team Leader				2287	Version 6	0		0	0	0						

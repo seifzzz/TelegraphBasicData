@@ -1,0 +1,12 @@
+.error-message{
+    text-align: center;
+    color: #a33;
+    margin-left: 25%;
+
+}
+.inactive{
+    color: red;
+}
+.active{
+    color: green;
+}

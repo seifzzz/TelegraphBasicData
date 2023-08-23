@@ -1,0 +1,135 @@
+<div class="header" >
+    <p class="title"> WFM GIS Portal  </p>
+
+  <div class="ml-3" style="display:none;">
+    <button type="button" class="btn btn-default dark-blue" label="" (click)="menu.toggle($event)">
+      <i class="pi pi-bars"></i>
+    </button>
+    <p-menu #menu [popup]="true" [model]="itemsModule"></p-menu>
+  </div>
+
+</div>
+<!-- <button type="button" class="btn btn-danger"  (click)="getAddress()">getAddress</button> -->
+
+
+
+<p-toast position="top-left"></p-toast>
+
+<section class="homepage vh-100">
+
+  <div class="container pt-3">
+
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+        <br />
+
+        <div class="card shadow-2-strong" >
+          <div class="card-body"> <!-- style="border-top:6px solid #9f3636 ; border-radius: inherit;"-->
+            <br/>
+            
+            <img src="assets/images/hiveworxlogo.png" title="LOGO" class="logo" />
+           
+            <!-- <h4 class="text-center mt-2 mb-2 text-dark-blue-bold">WFM GIS</h4>  -->
+            <br/>  <br />
+
+             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"> 
+              <div class="p-fluid p-grid">
+                <label for="inputusername"> UserName * </label>
+                <div>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-user"></i>
+                    <input type="text"   name="username"  formControlName="username" pInputText  placeholder="username"  
+                      [ngClass]="{'border-danger': loginForm.get('username')?.invalid && loginForm.get('username')?.errors &&
+                     (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)}  "   />
+                  </span>
+                </div>
+        
+                <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.errors && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)">
+                 <div class="form-text text-danger mt-1" *ngIf="loginForm.controls['username']?.errors?.['required']"> username is required.</div>
+              </div>
+        
+              </div>
+              <br />
+        
+              <div class="p-fluid p-grid">
+                <label for="inputPassword"> Password * </label>
+                <div>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-lock"></i>
+                    <input type="password"   name="password"  formControlName="password" pInputText  placeholder="Password"  
+                      [ngClass]="{'border-danger': loginForm.get('password')?.invalid && loginForm.get('password')?.errors &&
+                     (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)}  "   />
+                  </span>
+                </div>
+        
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.errors && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+                 <div class="form-text text-danger mt-1" *ngIf="loginForm.controls['password']?.errors?.['required']"> Password is required.</div>
+              </div>
+              
+              </div>
+        
+            
+              <br />
+              <hr class="mt-4 mb-4" />
+        
+              <div class="mt-2 mb-3">
+                <button type="submit" class="btn btn-default full-width dark-blue" [disabled]="loginForm.invalid">Login</button>
+              </div>
+              <br />
+              <div class="form-text text-danger mt-1 text-center" >{{showErrorMessage}}</div>
+        
+            </form>  
+
+
+
+            <!-- <form  ngNoForm   method="POST"  action="j_security_check"  > 
+              <div class="p-fluid p-grid">
+                <label for="inputusername"> UserName * </label>
+                <div>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-user"></i>
+                    <input type="text" name="j_username"  pInputText  placeholder="UserName" />
+                  </span>
+                </div>
+              </div>
+              <br />
+              <div class="p-fluid p-grid">
+                <label for="inputPassword"> Password * </label>
+                <div>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-lock"></i>
+                    <input type="password"   name="j_password"  pInputText   placeholder="password" />
+                  </span>
+                </div>
+              </div>
+            
+              <br />
+              <hr class="mt-4 mb-4" />
+              <div class="mt-2 mb-3">
+                <button type="submit" class="btn btn-default full-width dark-blue" >Login</button>
+              </div>
+              <br />
+              <div class="form-text text-danger mt-1 text-center" >{{showErrorMessage}}</div>
+
+            </form>  -->
+
+
+          </div>
+        </div>
+        <br/>
+        <!-- <p class="justify-content-center align-items-center" style="margin-left: 17%;">
+           Copyright <a  href="http://www.mts-mea.com/" target="_blank">MTSIT</a> © 2022. All Rights Reserved. 
+        </p> -->
+
+      </div>
+    </div>
+
+
+
+    
+    <!--  method="POST" action="http://10.19.35.75:8003/demo/j_security_check"-->
+    <!-- http://10.19.35.75:8003/wl-spring-boot-realm-demo-1.0.1/j_security_check?j_username=root&j_password=root1234 -->
+    <!--http://10.19.35.75:8003/WFMGIS_Session/-->
+
+              
+             

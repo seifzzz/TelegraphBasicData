@@ -1,0 +1,49 @@
+40	ADSL/VDSL Browsing Problem	7777	AVBrowsProb	7778	AVBrowsProb			0	0	N	N	0
+1	ADSL/VDSL New Subscriber	1001	Port Splitting	1001	ADSL/VDSL Splitting			0	0	N	N	0
+2	ADSL/VDSL New Subscriber	1001	Home Visit Dispatch	1003	ADSLNewSubAV	0		1	0	N	N	0
+3	ADSL/VDSL Termination	1002	Un Splitting	1002	ADSL Un-Splitting			0	0	N	N	0
+4	ADSL/VDSL Change Phone NO	1003	Port Splitting	1001	ADSLChPhNoMR		1	0	1	N	N	0
+5	ADSL/VDSL New Subscriber	1001	Home Visit Dispatch	1003	ADSLInstLastMFV	1		1	0	N	N	0
+6	ADSL/VDSL Change Phone NO	1003	Port Splitting	1001	ADSLChPhNoCR		0	0	1	N	N	0
+7	ADSL Change To VDSL	1004	Port Splitting	1001	ADSL Change to VDSL			0	0	N	N	0
+8	ADSL Change To VDSL	1004	Home Visit Dispatch	1003	ADSLChVDSLHV	0		1	0	N	N	0
+9	ADSL Change To VDSL	1004	Home Visit Dispatch	1003	ADSLChVDSLHVLM	1		1	0	N	N	0
+11	FTTH New Subscriber	1010	Survey	1004	FTTH Survey			0	0	N	N	0
+12	FTTH New Subscriber	1010	Home Visit Dispatch	1003	FTTHNewSubHV			0	0	N	N	0
+13	FTTH Change Phone No	1011	Home Visit Dispatch	1003	FTTHChPhNo			0	0	N	N	0
+14	ONT Configuration	1012	Home Visit Dispatch	1003	FTTHOntRep			0	0	N	N	0
+15	FTTH Voice Only	1026	Survey	1004	FTTHNewSubVS			0	0	N	N	0
+16	FTTH Voice Only	1013	Home Visit Dispatch	1003	FTTHNewSubV			0	0	N	N	0
+17	FTTH Home Visit	1014	Home Visit Dispatch	1003	FTTHNewSubHV			0	0	N	N	0
+18	IPTV New Subscriber	1015	Home Visit Dispatch	1003	IPTVNewSub			0	0	N	N	0
+19	IPTV Change Package	1016	Home Visit Dispatch	1003	IPTVChPackANS			0	0	N	N	0
+20	IPTV STB Replacement	1017	Home Visit Dispatch	1003	IPTV Replacement			0	0	N	N	0
+21	IP-Phone New Subscriber	1018	Home Visit Dispatch	1003	IPPhNewSub			0	0	N	N	0
+22	IP-Phone Replacement	1020	Home Visit Dispatch	1003	IPPhRep			0	0	N	N	0
+25	ADSL/VDSL Change Phone NO	1003	Un Splitting	1002	ADSL Un-Splitting			0	0	N	N	0
+26	ADSL/VDSL Home Visit	1005	Home Visit Dispatch	1003	ADSLExistCustCO			0	0	N	N	0
+27	FTTH Change Phone No	1011	Survey	1004	ChPhoneNoSurv			0	0	N	N	0
+28	FTTHNewSubCPNL	101	FTTHNewSubCPNL	101	FTTHNewSubCPNL			0	0	N	N	0
+29	FTTH Migration	1023	Survey	1004	FTTHMigrationSurvey			0	0	Y	N	0
+30	FTTH Migration	1023	Home Visit Dispatch	1003	FTTHMigrationHV			0	0	Y	N	0
+39	FTTH New Subscriber	1010	A/V Change to SuperVectoring	9999	A/V SuperVectoring			0	0	N	N	0
+37	ADSL/VDSL New Subscriber	1001	Home Visit Dispatch	5555	ADSLAV	0		1	0	N	N	0
+38	FTTH New Subscriber	1026	Resurvey	1006	FTTHReSurvey	0		0	0	N	N	0
+41	FTTH New Subscriber	1010	Incomplete cross connection	1005	FixActiveCC			0	0	Y	N	-2
+31	FTTH Voice Only	1013	Home Visit Dispatch	1003	FTTHMigrationNewSubV			0	0	Y	N	0
+32	FTTH Voice Only	1013	Survey	1004	FTTHMigrationVS			0	0	Y	N	0
+33	FTTH Voice Only	1013	Survey	1004	FTTHMigrationVSISP			0	0	Y	Y	0
+34	FTTH Voice Only	1013	Home Visit Dispatch	1003	FTTHMigrationVISP			0	0	Y	Y	0
+35	FTTH New Subscriber	1010	Incomplete cross connection	1005	FixPassiveCC			0	0	Y	N	-1
+46	gamila	1212	gamila	9999	gamila			0	0	Y	N	0
+43	FixedVoiceMS	1212	FixedVoiceMS	8889	FixedVoiceMS			0	0	N	N	0
+44	FTTH New Subscriber Voice & Data	1616	Home Visit Dispatch	8899	FTTHNewSubVoiceData			0	0	N	N	0
+47	gamila2022	1212	gamila2022	9991	gamila2022	0		0	0	Y	N	0
+99	A/V TechnicalVisit	7575	A/V TechnicalVisit	7575	A/V TechnicalVisit			0	0	N	N	0
+100	Confirmation	8181	Confirmation	8181	Confirmation			0	0	N	N	0
+42	Fixed Voice Installation MSAN only	1212	VoiceInstMSANOnly	8888	FixedVoiceInstMSAN			0	0	Y	N	0
+45	FixedVoiceD	1212	FixedVoiceD	8887	FixedVoiceD			0	0	N	N	0
+323	Home Visit Dispatch for FV FTTH New Subscriber	1026	Home Visit Dispatch for FV FTTH New Subscriber	1010	FTTHNewSubVoiceData			0	0	N	N	0
+360	FV FTTH New Subscriber	1026	Home Visit Dispatch	1003	FTTHNewSubV			0	0	N	N	0
+335	FV FTTH New Subscriber	1026	Incomplete cross connection	1005	FixActiveCC			0	0	N	N	-2
+336	FV FTTH New Subscriber	1026	Incomplete cross connection	1005	FixPassiveCC			0	0	N	N	-1

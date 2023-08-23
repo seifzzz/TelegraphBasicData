@@ -1,0 +1,44 @@
+2023-08-23 11:47:49,605 INFO o.s.b.StartupInfoLogger [restartedMain] Starting ServletInitializer using Java 20.0.2 on DESKTOP-8916JOV with PID 15272 (E:\TelegraphBasicData\target\classes started by PC in E:\TelegraphBasicData)
+2023-08-23 11:47:49,612 INFO o.s.b.SpringApplication [restartedMain] The following profiles are active: dev
+2023-08-23 11:47:49,675 INFO o.s.b.l.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\PC\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.1.0.0\ojdbc8-21.1.0.0.jar referenced one or more files that do not exist: file:/C:/Users/PC/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.1.0.0/oraclepki.jar
+2023-08-23 11:47:49,676 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-08-23 11:47:49,677 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-08-23 11:47:50,763 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-23 11:47:50,851 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 80 ms. Found 23 JPA repository interfaces.
+2023-08-23 11:47:51,503 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@52f59fc4' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-08-23 11:47:51,519 INFO o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [restartedMain] Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-08-23 11:47:51,881 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8082 (http)
+2023-08-23 11:47:51,890 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-8082"]
+2023-08-23 11:47:51,890 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-08-23 11:47:51,891 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.50]
+2023-08-23 11:47:51,952 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-08-23 11:47:51,952 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 2275 ms
+2023-08-23 11:47:52,206 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-23 11:47:52,247 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.4.32.Final
+2023-08-23 11:47:52,349 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-08-23 11:47:52,432 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-08-23 11:47:55,066 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-08-23 11:47:55,079 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+2023-08-23 11:47:59,713 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-23 11:47:59,719 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-23 11:48:00,368 INFO o.s.s.w.a.p.j.WebXmlMappableAttributesRetriever [restartedMain] Retrieved role-name 'ROLE_USER' from web.xml
+2023-08-23 11:48:01,639 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52c90ba9, org.springframework.security.web.context.SecurityContextPersistenceFilter@1810f51b, org.springframework.security.web.header.HeaderWriterFilter@3ff112f, org.springframework.web.filter.CorsFilter@467ad89d, org.springframework.security.web.authentication.logout.LogoutFilter@6093a178, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22775ba6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6e779c11, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@11f094ad, org.springframework.security.web.session.SessionManagementFilter@12d3ff56, org.springframework.security.web.access.ExceptionTranslationFilter@40f0b201, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@f82f69a]
+2023-08-23 11:48:01,669 INFO s.d.s.w.PropertySourcedRequestMappingHandlerMapping [restartedMain] Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-08-23 11:48:01,779 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-08-23 11:48:01,813 INFO o.s.b.a.w.s.WelcomePageHandlerMapping [restartedMain] Adding welcome page: class path resource [public/index.html]
+2023-08-23 11:48:02,518 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-8082"]
+2023-08-23 11:48:02,539 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8082 (http) with context path ''
+2023-08-23 11:48:02,541 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Context refreshed
+2023-08-23 11:48:02,556 INFO s.d.s.w.p.DocumentationPluginsBootstrapper [restartedMain] Found 1 custom documentation plugin(s)
+2023-08-23 11:48:02,590 INFO s.d.s.w.s.ApiListingReferenceScanner [restartedMain] Scanning for api listing references
+2023-08-23 11:48:02,749 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: IncidentOneUsingGET_1
+2023-08-23 11:48:02,750 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: NewIncidentUsingPOST_1
+2023-08-23 11:48:02,753 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: UpdateIncidentUsingPATCH_1
+2023-08-23 11:48:02,787 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: AllCitiesUsingGET_1
+2023-08-23 11:48:02,808 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: openapiJsonUsingGET_1
+2023-08-23 11:48:02,814 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: AdvancedSearchByAllConditionsUsingPOST_1
+2023-08-23 11:48:02,829 INFO s.d.s.w.r.o.CachingOperationNameGenerator [restartedMain] Generating unique operation named: AllTemplateTypeUsingGET_1
+2023-08-23 11:48:02,850 INFO o.s.b.StartupInfoLogger [restartedMain] Started ServletInitializer in 13.533 seconds (JVM running for 14.316)
+2023-08-23 11:48:09,195 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-08-23 11:48:09,201 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2023-08-23 11:48:09,937 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.

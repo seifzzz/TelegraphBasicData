@@ -1,0 +1,176 @@
+
+<div class="row col-12" >
+  
+  <div class="col-12" style="padding: 0 !important; margin: 0 !important;">
+    <app-search (getResponse)="getLocations($event)" #mySearch></app-search>
+  </div>
+
+  <br>
+  <div class="col-8" *ngIf="showMessage" >
+    <br>
+    <span class="error-message">{{showMessageNotActive}}</span>
+  </div>
+  <div class="col-8" *ngIf="!showMessage">
+    <br>
+    <!-- <div *ngIf="loading">
+      <i class="pi pi-spin pi-spinner text-center" style="margin-left:44%;"></i>   Loading
+    </div>
+    <div *ngIf="loading == false">
+    </div> -->
+    <div   id="map"  style="height: 90%;" *ngIf="counterDrawMappagenation !== -1 "></div> <!--*ngIf="!hiddenMap"-->
+
+  </div>
+
+  <br>
+ 
+
+  <div class="col-4" style=" padding: 0;">
+  
+    <div style="margin: 5px; margin-top: 22px; border-left: 1px solid #dee2e6; border-right: 1px solid #dee2e6;" *ngIf="hiddentable" >
+     <!--*ngIf="!hiddenMap"-->
+      <p-table 
+      #dt1 id="dt1" [value]="dataDetails"  [columns]="selectedColumns" [rows]="100" [showCurrentPageReport]="true" sortMode="multiple"
+      [scrollable]="false" scrollHeight="400px" styleClass="p-datatable-sm" [rowsPerPageOptions]="[5, 10, 25, 50 ,100 , 500]"
+      styleClass="p-datatable-sm p-datatable-gridlines" 
+      [loading]="loading" selectionMode="single" [(selection)]="selectedR" [paginator]="isPaginator"  
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="[ 'worker_ID', 'worker_NAME' , 'longitude' ,'latitude', 'imei' , 'last_MODIFIED_DATE' , 'emp_ROLE_ID' , 'org_ROLE']"
+      [metaKeySelection]="true" responsiveLayout="scroll" dataKey="id">
+            
+      <ng-template pTemplate="caption">
+        <!-- <div class="flex"  style="float: right; margin-top: -5px; margin-left: 8px">
+          <button type="button" class="btn btn-success btnNew" (click)="exportExcel()" title="Export Excel">
+            <i class="pi pi-file-excel"></i> Export
+          </button>
+        </div>
+       -->
+      
+      
+        <div class="table-header" style="height: 25px">
+      
+          <span class="p-input-icon-left searchtable">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text"  [ngModelOptions]="{standalone: true}" ngModel #inVal="ngModel" [(ngModel)]="h" (input)="dt1.filterGlobal(inVal.value, 'contains')" placeholder="Search keyword"/>
+          </span>
+      
+        </div>
+      </ng-template>
+      
+     
+      <ng-template pTemplate="header"  let-columns>
+        <tr>
+          <!-- <th  pSortableColumn="worker_ID">
+            <div class="p-d-flex p-jc-between p-ai-center">
+              worker_ID
+            <p-sortIcon field="worker_ID"></p-sortIcon>
+           </div>
+         </th> -->
+         <th  pSortableColumn="worker_NAME">
+          <div class="p-d-flex p-jc-between p-ai-center">
+            Worker Name
+          <p-sortIcon field="worker_NAME"></p-sortIcon>
+         </div>
+       </th>
+       <!-- <th  pSortableColumn="longitude">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              longitude
+          <p-sortIcon field="longitude"></p-sortIcon>
+         </div>
+       </th> -->
+  
+       <!-- <th  pSortableColumn="latitude">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              latitude
+          <p-sortIcon field="latitude"></p-sortIcon>
+         </div>
+       </th> -->
+       <!-- <th  pSortableColumn="imei">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              imei
+          <p-sortIcon field="imei"></p-sortIcon>
+         </div>
+       </th> -->
+       <th  pSortableColumn="last_MODIFIED_DATE">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              last Modified Date
+          <p-sortIcon field="last_MODIFIED_DATE"></p-sortIcon>
+         </div>
+       </th>
+       <th  pSortableColumn="emp_ROLE_ID">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              Emp ROLE ID
+          <p-sortIcon field="emp_ROLE_ID"></p-sortIcon>
+         </div>
+       </th>
+       <!-- <th  pSortableColumn="org_ROLE">
+          <div class="p-d-flex p-jc-between p-ai-center">
+              org_ROLE
+          <p-sortIcon field="org_ROLE"></p-sortIcon>
+         </div>
+       </th> -->
+       <th  pSortableColumn="worker_STATUS">
+        <div class="p-d-flex p-jc-between p-ai-center">
+          STATUS
+        <p-sortIcon field="worker_STATUS"></p-sortIcon>
+       </div>
+     </th>
+  
+        </tr>
+      
+        <tr>
+          <!-- <th> <p-columnFilter type="text"  field="worker_ID" ></p-columnFilter> </th> -->
+          <th> <p-columnFilter type="text"  field="worker_NAME" ></p-columnFilter></th>
+          <!-- <th> <p-columnFilter type="text"  field="longitude" ></p-columnFilter></th> -->
+          <!-- <th> <p-columnFilter type="text"  field="latitude" ></p-columnFilter></th> -->
+          <!-- <th> <p-columnFilter type="text"  field="imei" ></p-columnFilter></th> -->
+          <th> <p-columnFilter type="text"  field="last_MODIFIED_DATE" ></p-columnFilter></th>
+          <th> <p-columnFilter type="text"  field="emp_ROLE_ID" ></p-columnFilter></th>
+          <!-- <th> <p-columnFilter type="text"  field="org_ROLE" ></p-columnFilter></th> -->
+          <th> <p-columnFilter type="text"  field="worker_STATUS" ></p-columnFilter></th>
+
+          
+        </tr>
+        
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-dataDetail let-columns="columns" let-rowIndex="rowIndex">
+        <tr (click)="selectedRow(dataDetail , rowIndex)" [pSelectableRow]="dataDetail"  [pSelectableRowIndex]="rowIndex"> <!-- (click)="selectedRow(dataDetail , rowIndex)" [pSelectableRow]="dataDetail"  [pSelectableRowIndex]="rowIndex"-->
+          <!-- <td>{{dataDetail.worker_ID}}</td> -->
+          <td>{{dataDetail.worker_NAME}}</td>
+          <!-- <td>{{dataDetail.longitude}}</td> -->
+          <!-- <td>{{dataDetail.latitude}}</td> -->
+          <!-- <td>{{dataDetail.imei}}</td> -->
+          <td>{{dataDetail.last_MODIFIED_DATE |  date:'medium'}}</td> 
+          <td>{{dataDetail.emp_ROLE_ID}}</td>
+          <!-- <td>{{dataDetail.org_ROLE}}</td> -->
+          <td><span  [ngClass]="{'active':dataDetail.worker_STATUS == 'Active Location',
+                                 'inactive':dataDetail.worker_STATUS == 'InActive Location'}" >
+              {{dataDetail.worker_STATUS}} </span></td>
+
+             
+        
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9"><h6 class="emptymessage">No Data Found</h6></td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <span *ngIf="!isPaginator">
+        <span class="paginatorShow" > Showing {{first}} to {{last}} of {{totalRecords}} entries </span>
+        <p-paginator  #paginator id="manual-paginator" [first]="first"  [rows]="totalRow" [totalRecords]="totalRecords" 
+        [rowsPerPageOptions]="[5, 10, 25, 50 , 100 , 500 ]" (onPageChange)="paginate($event)"></p-paginator>
+      </span>
+       </ng-template>
+      
+      </p-table>
+      
+      
+      </div>
+
+  
+  </div>
+</div>
+

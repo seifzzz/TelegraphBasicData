@@ -1,0 +1,15 @@
+.searchtable{
+    float: right;
+    margin-top: -4px;
+}
+.multicol{
+     margin-top: -4px;
+ }
+ 
+.paginatorShow{
+    font-size: 14px;
+    font-weight: 400;
+    background: none;
+    text-align: center;
+}
+

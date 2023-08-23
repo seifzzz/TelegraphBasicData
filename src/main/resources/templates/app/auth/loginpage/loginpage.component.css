@@ -1,0 +1,53 @@
+.header{
+   background: #9f3636;
+   height: 63px;
+}
+.title{
+   text-align: center;
+   font-size: 24px;
+   color: white;
+   padding: 13px;
+}
+
+.logo {
+   margin-left: 15%;
+   width: 75%;
+   margin-bottom: -30px;
+   margin-top: -25px;
+}
+
+
+.homepage{
+    background-color: #ddd;
+    /* background-image: url("/../assets/images/OIP.jpg"); */
+    background-repeat: no-repeat;
+    background-position: center;
+    /* opacity: 0.8; */
+ }
+ 
+ 
+ .logoimage{
+    width: 240px;
+    padding: 0 10px;
+    margin-left: 27%;
+ }
+ 
+ .shadow-2-strong{
+    border-radius: 0.25rem; 
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: 0;
+ }
+ .full-width {
+    width: 100%;
+    border-radius: .40rem;
+ }
+ 
+ .btn:not(:disabled):not(.disabled){
+    color: white !important;
+ }
+ .btn:disabled{
+  background: #717170!important
+}
+ .text-danger{
+    font-size: 13px;
+ }
