@@ -1,6 +1,9 @@
 package systemData.services.SystemDataServices;
 
+import javassist.NotFoundException;
+import systemData.models.BasicData.Incident.Incident;
 import systemData.models.BasicData.IncidentStatus.IncidentStatus;
+import systemData.repos.SystemDataRepos.IncidentRepo;
 import systemData.repos.SystemDataRepos.IncidentStatusRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,8 @@ public class IncidentStatusService {
 
     @Autowired
     IncidentStatusRepo incidentStatusRepo;
+    @Autowired
+    IncidentRepo incidentRepo;
 
 
     public List<IncidentStatus> getAllStatus(){
@@ -42,9 +47,11 @@ public class IncidentStatusService {
 
     }
 
-    public boolean DeleteOne(String code){
+    public boolean DeleteOne(String code) throws NotFoundException {
         Optional<IncidentStatus> checked =  incidentStatusRepo.findById(code);
         if(!checked.isPresent()) return false;
+        List<Incident> incidents = incidentRepo.findByStatusCode(checked.get());
+        if(!incidents.isEmpty()) throw new NotFoundException("Can't delete this status, there are incidents with this status");
         incidentStatusRepo.deleteById(code);
         return true;
 

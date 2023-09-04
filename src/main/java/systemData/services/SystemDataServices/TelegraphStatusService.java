@@ -29,14 +29,21 @@ public class TelegraphStatusService {
     public TelegraphStatus CreateOne(TelegraphStatus telegraphStatus){
         Optional<TelegraphStatus> checked = telegraphStatusRepo.findById(telegraphStatus.getSTATUS_CODE());
         if(checked.isPresent()) return null;
+        telegraphStatus.setDESCRIPTION(telegraphStatus.getSTATUS_NAME());
+        telegraphStatus.setSHOW_ARCHIVE(1);
+        telegraphStatus.setSTATUS_ORDER(1);
+
         return telegraphStatusRepo.save(telegraphStatus);
 
     }
 
     public TelegraphStatus UpdateOne(TelegraphStatus telegraphStatus){
         Optional<TelegraphStatus> checked = telegraphStatusRepo.findById(telegraphStatus.getSTATUS_CODE());
-        if(checked.isPresent()) return telegraphStatusRepo.save(telegraphStatus);
-        return null;
+        if(!checked.isPresent())  return null;
+        telegraphStatus.setDESCRIPTION(telegraphStatus.getSTATUS_NAME());
+        telegraphStatus.setSHOW_ARCHIVE(1);
+        telegraphStatus.setSTATUS_ORDER(1);
+        return telegraphStatusRepo.save(telegraphStatus);
 
     }
 

@@ -53,6 +53,26 @@ public class TariffPlanService {
             throw new RuntimeException("Urgent Enable must be 0 or 1");
          if(tariffPlan.getSMS_ENABLE() >= 2 || tariffPlan.getSMS_ENABLE() < 0)
             throw new RuntimeException("SMS Enable must be 0 or 1");
+         if(tariffPlan.getCHAR_WORD() < 0)
+             throw new RuntimeException("Char Word must be positive");
+            if(tariffPlan.getINQUIRY_PRICE() < 0)
+                throw new RuntimeException("Inquiry Price must be positive");
+            if(tariffPlan.getWORD_PRICE() < 0)
+                throw new RuntimeException("Word Price must be positive");
+            if(tariffPlan.getDECORATION_PRICE() < 0)
+                throw new RuntimeException("Decoration Price must be positive");
+            if(tariffPlan.getPO_PRICE() < 0)
+                throw new RuntimeException("PO Price must be positive");
+            if(tariffPlan.getURGENT_PRICE() < 0)
+                throw new RuntimeException("Urgent Price must be positive");
+            if(tariffPlan.getTEMPLATE_PRICE() < 0)
+                throw new RuntimeException("Template Price must be positive");
+            if(tariffPlan.getDELIVERY_PRICE() < 0)
+                throw new RuntimeException("Delivery Price must be positive");
+            if(tariffPlan.getADMIN() < 0 || tariffPlan.getADMIN() >= 2)
+                throw new RuntimeException("Admin must be 0 or 1");
+            if (tariffPlan.getWORDS_COUNT() < 0)
+                throw new RuntimeException("Words Count must be positive");
      }
 
     public TariffPlan CreateTariffPlan(TariffPlan tariffPlan) throws NotFoundException {
@@ -65,7 +85,7 @@ public class TariffPlanService {
     public TariffPlan UpdateTariffPlan(String code,TariffPlan tariffPlan) {
         if(getPlan(code) == null) return null;
         tariffPlan.setPLAN_CODE(code);
-        tariffPlan.setSALES_TAX(0L);tariffPlan.setWORDS_COUNT(1);
+        tariffPlan.setSALES_TAX(0L);
 
         return tariffPlanRepo.save(tariffPlan);
     }

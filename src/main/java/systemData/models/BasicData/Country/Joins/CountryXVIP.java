@@ -1,5 +1,6 @@
 package systemData.models.BasicData.Country.Joins;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,7 @@ public class CountryXVIP {
     String OFFICIAL_ADDRESS;
     @JsonProperty("addedCost")
     Long ADDED_COST;
-    @JsonProperty("vipEntity")
+    @JsonIgnore
     String VIP_ENTITY;
     @JsonProperty("cityCode")
     String CITY_CODE;

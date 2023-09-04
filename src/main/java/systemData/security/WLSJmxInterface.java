@@ -3,6 +3,7 @@ package systemData.security;
 import java.util.Date;
 import java.util.Hashtable;
 
+import javax.annotation.PostConstruct;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
@@ -11,6 +12,7 @@ import javax.management.remote.JMXServiceURL;
 import org.jboss.logging.Logger;
 
 import systemData.models.User.WLSConfig;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,94 @@ public class WLSJmxInterface {
 	  private static final Logger log = Logger
 				.getLogger(WLSJmxInterface.class);
 	  
-	  //@PostConstruct
+	  public void  createConnection(WLSConfig wlsConfig) {
+		  try {
+	        	connection = null;  
+	        	defaultAuthenticator = null;
+	            String host = wlsConfig.getSERVER_IP();
+	            String port = wlsConfig.getSERVER_PORT();
+	            String username = wlsConfig.getSERVER_USERNAME();
+	            String password = wlsConfig.getSERVER_PASSWORD();
+	            String DEFAULT_PROTOCOL = wlsConfig.getPROTOCOL();
+	              //Decryption dec=null;
+	              /*MTSPermission mtsPer = MTSPermission.getInstance();
+	              if(mtsPer.getServerIp()==null)
+	                  mtsPer = new MTSPermission();
+	              host = mtsPer.getServerIp();
+	              port = mtsPer.getServerPort();
+	               dec=new Decryption();
+	              username = mtsPer.getServerUsername();
+	              password =  "dec.decrypt(mtsPer.getServerPassword());*/
+	/*            SecurityAppModule am =
+	      (SecurityAppModule)Configuration.createRootApplicationModule("MTS.security.SecurityAppModule", "SecurityAppModuleLocal");
+	              ViewObject webLogicVo = am.findViewObject("WebLogicConfView1");
+	            Row[] r = webLogicVo.getAllRowsInRange();
+	                if(r.length>0)
+	                {
+	                  host = r[0].getAttribute("ServerIp").toString();
+	                  port = r[0].getAttribute("ServerPort").toString();
+	                  username = r[0].getAttribute("ServerUsername").toString();
+	                  password = r[0].getAttribute("ServerPassword").toString();
+	                }
+	            Configuration.releaseRootApplicationModule(am, true);0
+	*/
+	              Hashtable h = new Hashtable();
+	              JMXServiceURL serviceURL;
+	              
+	              //System.out.println("WLS Protocol: " + DEFAULT_PROTOCOL);
+	              
+	              serviceURL =
+	                      new JMXServiceURL(DEFAULT_PROTOCOL, host, Integer.valueOf(port).intValue(),
+	                                        "/jndi/weblogic.management.mbeanservers.domainruntime");
+
+	              h.put("java.naming.security.principal", username);
+	              h.put("java.naming.security.credentials", password);
+	              h.put("jmx.remote.protocol.provider.pkgs",
+	                    "weblogic.management.remote");
+
+	              //Creating a JMXConnector to connect to JMX
+	              JMXConnector connector =
+	                  JMXConnectorFactory.connect(serviceURL, h);
+
+	              connection = connector.getMBeanServerConnection();
+
+	              /**
+	                We Get Objects by creating ObjectName with it's Qualified name.
+	                The constructor take a String of the full Qualified name of the MBean
+	                We then use connection to get Attribute out of this ObjectName but specifying a String of
+	                this Attribute
+	                ***/
+	              
+
+	              ObjectName configurationMBeans=
+	                  new ObjectName(DOMAIN_MBEAN_NAME);
+	              ObjectName domain =
+	                  (ObjectName)connection.getAttribute(configurationMBeans, "DomainConfiguration");
+
+	              ObjectName security =
+	                  (ObjectName)connection.getAttribute(domain, "SecurityConfiguration");
+
+	              ObjectName realm =
+	                  (ObjectName)connection.getAttribute(security, "DefaultRealm");
+
+	              authenticationProviders =
+	                      (ObjectName[])connection.getAttribute(realm,
+	                                                            "AuthenticationProviders");
+
+	              for (int i = 0; i < authenticationProviders.length; i++) {
+	                  String name =
+	                      (String)connection.getAttribute(authenticationProviders[i],
+	                                                      "Name");
+
+	                  if (name.equals(authenticatorName))
+	                      defaultAuthenticator = authenticationProviders[i];
+	              }
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	            //  throw new RuntimeException(e);
+	          }
+	  }
+	 // @PostConstruct
 	  public void postConstruct(WLSConfig wlsConfig) {
 	          try {
 	        	connection = null;  
@@ -84,12 +173,12 @@ public class WLSJmxInterface {
 
 	              connection = connector.getMBeanServerConnection();
 
-	              /****
+	              /**
 	                We Get Objects by creating ObjectName with it's Qualified name.
 	                The constructor take a String of the full Qualified name of the MBean
 	                We then use connection to get Attribute out of this ObjectName but specifying a String of
 	                this Attribute
-	                *****/
+	                ***/
 	              
 
 	              ObjectName configurationMBeans=
@@ -123,7 +212,7 @@ public class WLSJmxInterface {
 	      
 	    public boolean changeUserPassword(String username, String oldPassword,String newPassword) {
 	    	//System.out.println("ana hena ahooooo gwa el method");
-	        try {
+	    	try {
 	            if (!username.equalsIgnoreCase("weblogic")) {
 	                connection.invoke(defaultAuthenticator, "changeUserPassword",
 	                                  new Object[] { username, oldPassword, newPassword },
@@ -223,9 +312,8 @@ public static boolean isUserLocked(String username) {
     ObjectName service =
             new ObjectName("com.bea:Name=DomainRuntimeService,Type=weblogic.management.mbeanservers.domainruntime.DomainRuntimeServiceMBean");
     
-    ObjectName[] serverRT =
-        (ObjectName[])connection.getAttribute(service,
-                                              "ServerRuntimes");
+   
+    ObjectName[] serverRT =(ObjectName[])connection.getAttribute(service,"ServerRuntimes");
     ObjectName ssr =
         (ObjectName)connection.getAttribute(serverRT[0], "ServerSecurityRuntime");
     ObjectName rrm =
@@ -375,7 +463,7 @@ public static List getGroupMembers(String groupName) throws RuntimeException {
 
         String cursor =
             (String)connection.invoke(defaultAuthenticator, "listGroupMembers",
-                                      new Object[] { groupName, "*", new java.lang.Integer(0) },
+                                      new Object[] { groupName, "*",0 },
                                       new String [] { "java.lang.String", "java.lang.String", "java.lang.Integer" });
 
         boolean haveCurrent =

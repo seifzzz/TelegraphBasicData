@@ -17,13 +17,13 @@ import systemData.repos.UserRepos.UserRepo;
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
-    UserRepo userRepo;
+	UserRepo userRepo;
 	
 	@Value("${module.id}")
 	private Long module_id;
 	
 	@Autowired
-    UserPermissionRepo userPermRepo;
+	UserPermissionRepo userPermRepo;
 	
 	@Transactional
 	@Override
@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		User user = userRepo.findByUSERNAME(username);
 		
 		if(user != null) {
-			user.setEMP_ORG(userRepo.getEmpOrg(user.getWORKER_ID()));
+//			user.setEMP_ORG(userRepo.getEmpOrg(user.getWORKER_ID()));
 			user.setPERMISSIONS(userPermRepo.getUserPermissionsByUSER_NAME(username, module_id));
 			System.out.println("user in UserDetailsServiceImpl=" +user);
 		}

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "SC_ROLES", schema = "FRM_WFM_SEC")
+@Table(name = "SC_ROLES", schema = "MTS_SECURITY")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +19,6 @@ public class Role {
 	private String ROLE_NAME;
 	private Long PARENT_ROLE_ID;
 	private String LAST_MODIFIED_BY;
-	private String DESCRIPTION;
+//	private String DESCRIPTION;
 	
 }

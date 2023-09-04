@@ -20,7 +20,6 @@ import java.io.Serializable;
 public class CountryXVipId implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_CODE")
-    @JsonProperty("CountryCode")
     @JsonIgnore
     Country COUNTRY_CODE;
     @JsonProperty("personNo")

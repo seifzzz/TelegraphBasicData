@@ -5,12 +5,14 @@ import systemData.models.BasicData.Template.Language;
 import systemData.models.BasicData.Template.Template;
 import systemData.models.BasicData.Template.TemplateType;
 import systemData.payload.request.TemplateReq;
+import systemData.payload.request.TemplateUpdateReq;
 import systemData.repos.SystemDataRepos.LanguageRepo;
 import systemData.repos.SystemDataRepos.TemplateRepo;
 import systemData.repos.SystemDataRepos.TemplateTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -31,10 +33,12 @@ public class TemplateService {
        return templateTypes;
    }
 
-   public List<Template> getAllTemplateByType(String code){
+   public List<TemplateReq> getAllTemplateByType(String code){
        List<Template> templates = templateRepo.findByType(code);
        if(templates == null || templates.isEmpty()) return null;
-       return templates;
+       List<TemplateReq> templateRes = new ArrayList<>();
+       for(Template template :templates ) templateRes.add(new TemplateReq(template));
+       return templateRes;
    }
 
    public TemplateType getTemplateTypeOne(String code){
@@ -42,10 +46,14 @@ public class TemplateService {
        return templateType.orElse(null);
    }
 
-   public Template getTemplate(String code){
+   public TemplateReq getTemplate(String code){
        Optional<Template> template = templateRepo.findById(code);
-       return template.orElse(null);
+       return template.map(TemplateReq::new).orElse(null);
    }
+    public Template TemplateOne(String code){
+        Optional<Template> template = templateRepo.findById(code);
+        return template.orElse(null);
+    }
 
    public TemplateType CreateTemplateType(TemplateType templateType){
        TemplateType checked = getTemplateTypeOne(templateType.getTEMP_TYPE_CODE());
@@ -54,9 +62,9 @@ public class TemplateService {
 
    }
 
-   public Template CreateTemplate(TemplateReq templateReq) throws NotFoundException {
+   public TemplateReq CreateTemplate(TemplateReq templateReq) throws NotFoundException {
 
-       if(getTemplate(templateReq.getTEMP_CODE()) != null) throw new NotFoundException("template code already exist");
+       if(TemplateOne(templateReq.getTEMP_CODE()) != null) throw new NotFoundException("template code already exist");
        TemplateType templateType = getTemplateTypeOne(templateReq.getTEMP_TYPE_CODE());
        if(templateType == null) throw new NotFoundException("Template Type Code doesn't exist");
        Language language = getLanguageByCode(templateReq.getTEMP_LANG_CODE().toLowerCase(Locale.ROOT));
@@ -66,7 +74,7 @@ public class TemplateService {
                TEMP_LANG_CODE(language).LANG_DIRECTION(language.getLANG_DIRECTION()).
                TEMP_SUBJECT(templateReq.getTEMP_SUBJECT()).TEMP_NAME(templateReq.getTEMP_NAME()).
                TEMP_TYPE_CODE(templateType).build();
-       return templateRepo.save(Created);
+       return new TemplateReq(templateRepo.save(Created));
 
    }
     public List<Language> getAllLanguage(){
@@ -101,19 +109,19 @@ public class TemplateService {
        if(getTemplateTypeOne(templateType.getTEMP_TYPE_CODE()) == null) return null;
        return templateTypeRepo.save(templateType);
    }
-   public Template UpdateTemplate(TemplateReq templateReq) throws NotFoundException {
-       if(getTemplate(templateReq.getTEMP_CODE()) == null)  throw new NotFoundException("template code doesn't exist");
+   public TemplateReq UpdateTemplate(TemplateReq templateReq,String code) throws NotFoundException {
+       if(getTemplate(code) == null)  throw new NotFoundException("template code doesn't exist");
        TemplateType templateType = getTemplateTypeOne(templateReq.getTEMP_TYPE_CODE());
        if(templateType == null)  throw new NotFoundException("Template Type Code doesn't exist");
        Language language = getLanguageByCode(templateReq.getTEMP_LANG_CODE().toLowerCase(Locale.ROOT));
        if(language == null) throw new NotFoundException("language code doesn't exist");
 
-       Template Updated = Template.builder().TEMP_CODE(templateReq.getTEMP_CODE()).
+       Template Updated = Template.builder().TEMP_CODE(code).
                TEMP_LANG_CODE(language).LANG_DIRECTION(language.getLANG_DIRECTION()).
                TEMP_SUBJECT(templateReq.getTEMP_SUBJECT()).TEMP_NAME(templateReq.getTEMP_NAME()).
                TEMP_TYPE_CODE(templateType).build();
 
-       return templateRepo.save(Updated);
+       return new TemplateReq(templateRepo.save(Updated));
    }
 
 }

@@ -2,7 +2,6 @@ package systemData.Controller.systemDataControllers;
 
 import javassist.NotFoundException;
 import systemData.models.BasicData.Template.Language;
-import systemData.models.BasicData.Template.Template;
 import systemData.models.BasicData.Template.TemplateType;
 import systemData.payload.request.TemplateReq;
 import systemData.payload.response.Response;
@@ -35,7 +34,7 @@ public class TemplateController {
 
     @GetMapping("allTemplate/{code}")
     public ResponseEntity<?> AllTemplateType(@PathVariable String code) throws NotFoundException {
-        List<Template> templates = templateService.getAllTemplateByType(code);
+        List<TemplateReq> templates = templateService.getAllTemplateByType(code);
         if(templates == null || templates.isEmpty()) throw new NotFoundException("No Rows");
         return  ResponseEntity.ok(new Response(200,"Successful Request",templates));
     }
@@ -56,14 +55,14 @@ public class TemplateController {
 
     @GetMapping("{code}")
     public ResponseEntity<?> TemplateOne(@PathVariable String code) throws NotFoundException {
-        Template template = templateService.getTemplate(code);
+        TemplateReq template = templateService.getTemplate(code);
         if(template == null) throw new NotFoundException("Id doesn't exist");
         return  ResponseEntity.ok(new Response(200,"Successful Request",template));
     }
 
     @PostMapping("saveTemplate")
     public ResponseEntity<?> createTemplate(@RequestBody TemplateReq templateReq) throws NotFoundException {
-        Template template = templateService.CreateTemplate(templateReq);
+        TemplateReq template = templateService.CreateTemplate(templateReq);
         if(template == null) throw new NotFoundException("Id already exist");
         return ResponseEntity.ok(new Response(200,"Template is created",template));
     }
@@ -87,8 +86,8 @@ public class TemplateController {
         throw new NotFoundException("Id doesn't exist");
     }
     @PatchMapping("{code}")
-    public ResponseEntity<?> updateTemplate (@RequestBody TemplateReq templateReq) throws NotFoundException {
-        Template template = templateService.UpdateTemplate(templateReq);
+    public ResponseEntity<?> updateTemplate (@PathVariable String code,@RequestBody TemplateReq templateReq) throws NotFoundException {
+        TemplateReq template = templateService.UpdateTemplate(templateReq,code);
         if(template == null) throw new NotFoundException("Id doesn't exist");
         return ResponseEntity.ok(new Response(200,"Template is updated",template));
 

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class RateLimitingInterceptor implements HandlerInterceptor{
     
-	private final RateLimiter rateLimiter;
+	private final  RateLimiter rateLimiter;
 
     public RateLimitingInterceptor(RateLimiter rateLimiter) {
         this.rateLimiter = rateLimiter;

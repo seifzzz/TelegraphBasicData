@@ -1,7 +1,7 @@
 package systemData.repos.SystemDataRepos;
 
 import systemData.models.BasicData.TariffPlan.TariffPlan_ExtraFee;
-import systemData.models.BasicData.TariffPlan.TarriffPlanExtraFeeId;
+import systemData.models.BasicData.TariffPlan.TariffPlanExtraFeeId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface TariffPlan_ExtraFeeRepo extends JpaRepository<TariffPlan_ExtraFee, TarriffPlanExtraFeeId> {
+public interface TariffPlan_ExtraFeeRepo extends JpaRepository<TariffPlan_ExtraFee, TariffPlanExtraFeeId> {
      @Query(value = "select * from TGH_TARRIF_ADD where PLAN_CODE=:code",nativeQuery = true)
      Optional<List<TariffPlan_ExtraFee>> FindByCodePlan(String code);
 

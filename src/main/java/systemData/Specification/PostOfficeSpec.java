@@ -48,14 +48,13 @@ public class PostOfficeSpec {
                 predicates.add(criteriaBuilder.equal(root.get("INTERNATIONAL"), postOfficeReq.getINTERNATIONAL()));
             }
             if(postOfficeReq.getCOUNTRY_CODE() != null){
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("COUNTRY_CODE").get("COUNTRY_CODE")),
-                        "%" + postOfficeReq.getCOUNTRY_CODE().toLowerCase() + "%"));
+
+                predicates.add(criteriaBuilder.equal(root.get("COUNTRY_CODE").get("COUNTRY_CODE"),
+                        postOfficeReq.getCOUNTRY_CODE()));
             }
             if(postOfficeReq.getCITY_CODE() != null){
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("CITY_CODE").get("CITY_CODE")),
-                        "%" + postOfficeReq.getCITY_CODE().toLowerCase() + "%"));
+                predicates.add(criteriaBuilder.equal(root.get("CITY_CODE").get("CITY_CODE"),
+                        postOfficeReq.getCITY_CODE()));
             }
             if(postOfficeReq.getOUTGOING() != null){
                 predicates.add(criteriaBuilder.equal(root.get("OUTGOING"), postOfficeReq.getOUTGOING()));
@@ -79,6 +78,13 @@ public class PostOfficeSpec {
                         criteriaBuilder.lower(root.get("NOTES")),
                         "%" + postOfficeReq.getNOTES().toLowerCase() + "%"));;
             }
+            if(postOfficeReq.getOFF_ADDRESS() != null){
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("OFF_ADDRESS")),
+                        "%" + postOfficeReq.getOFF_ADDRESS().toLowerCase() + "%"));;
+            }
+
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

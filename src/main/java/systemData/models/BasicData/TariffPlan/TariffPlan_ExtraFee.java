@@ -18,14 +18,12 @@ import javax.persistence.*;
 public class TariffPlan_ExtraFee {
 
     @EmbeddedId
-    TarriffPlanExtraFeeId Id;
-
-
+    TariffPlanExtraFeeId Id;
     @JsonProperty("valid")
     Integer VALID;
-    @JsonProperty("taxEnabled")
+    @JsonIgnore
     Integer TAX_ENABLED;
-    @JsonProperty("tempEnabled")
+    @JsonIgnore
     Integer TEMP_ENABLED;
 
 }

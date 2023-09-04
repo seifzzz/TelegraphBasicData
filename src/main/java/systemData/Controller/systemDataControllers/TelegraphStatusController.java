@@ -45,7 +45,7 @@ public class TelegraphStatusController {
         if(telegraphStatusService.DeleteOne(code)) return  ResponseEntity.ok(new Response(200,"Telegraph Status is deleted","Successful Request"));
         throw new NotFoundException("Id doesn't exist");
     }
-    @PatchMapping("{code}")
+    @PatchMapping
     public ResponseEntity<?> updateTelegraphStatus (@RequestBody TelegraphStatus telegraphStatus) throws NotFoundException {
         TelegraphStatus updated = telegraphStatusService.UpdateOne(telegraphStatus);
         if(updated == null) throw new NotFoundException("Id doesn't exist");

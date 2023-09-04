@@ -41,13 +41,6 @@ public class PostOfficeService {
     @Autowired
     OfficeKeywordRepo officeKeywordRepo;
 
-
-    public List<PostOffice> getAllPostOffices(){
-        List<PostOffice> allOffices = postOfficeRepo.findAll();
-        if(allOffices.isEmpty()) return null;
-        return allOffices;
-    }
-
     public Long getCount(){
         return postOfficeRepo.count();
     }
@@ -57,12 +50,17 @@ public class PostOfficeService {
 
 
     public PostOffice BuildPostOffice(PostOfficeReq postOfficeReq){
+        if(getOffice(postOfficeReq.getOFFICE_CODE()) != null) throw new RuntimeException("code already exist");
+
         Country country = countryService.getCountry(postOfficeReq.getCOUNTRY_CODE());
         if(country == null) throw new RuntimeException("Invalid country code");
-        City city = cityService.getCity(postOfficeReq.getCITY_CODE());
-        if( city == null) throw new RuntimeException("Invalid city code");
 
-        if(getOffice(postOfficeReq.getOFFICE_CODE()) != null) throw new RuntimeException("code already exist");
+        City city;
+        if(postOfficeReq.getCITY_CODE() != null) {
+             city = cityService.getCity(postOfficeReq.getCITY_CODE());
+            if (city == null) throw new RuntimeException("Invalid city code");
+        }
+        else city = null;
 
         return PostOffice.builder().OFFICE_CODE(postOfficeReq.getOFFICE_CODE()).
                 IN_SERVICE(postOfficeReq.getIN_SERVICE()).DEST_IND(postOfficeReq.getDEST_IND()).
@@ -75,12 +73,17 @@ public class PostOfficeService {
 
 
     public PostOffice UpdateBuildPostOffice(PostOfficeReq postOfficeReq){
-        Country country = countryService.getCountry(postOfficeReq.getCOUNTRY_CODE());
-        if(country == null) return null;
-        City city = cityService.getCity(postOfficeReq.getCITY_CODE());
-        if( city == null) return null;
-
         if(getOffice(postOfficeReq.getOFFICE_CODE()) == null) throw new RuntimeException("code isn't exist to update");
+
+        Country country = countryService.getCountry(postOfficeReq.getCOUNTRY_CODE());
+        if(country == null) throw new RuntimeException("Invalid country code");
+
+        City city;
+        if(postOfficeReq.getCITY_CODE() != null) {
+            city = cityService.getCity(postOfficeReq.getCITY_CODE());
+            if (city == null) throw new RuntimeException("Invalid city code");
+        }
+        else city = null;
 
         return PostOffice.builder().OFFICE_CODE(postOfficeReq.getOFFICE_CODE()).
                 IN_SERVICE(postOfficeReq.getIN_SERVICE()).DEST_IND(postOfficeReq.getDEST_IND()).
@@ -102,6 +105,16 @@ public class PostOfficeService {
         if(postOffices.isEmpty()) return null;
 
         return postOffices.getContent();
+    }
+    public List<PostOffice> getPostOfficesByCity(String code){
+        List<PostOffice> postOffices = postOfficeRepo.findByCityCode(code);
+        if(postOffices.isEmpty()) return null;
+        return postOffices;
+    }
+    public List<PostOffice> getPostOfficesByCountry(String code){
+        List<PostOffice> postOffices = postOfficeRepo.findByCountryCode(code);
+        if(!postOffices.isEmpty()) return postOffices;
+        return null;
     }
 
     public List<PostOffice> searchWithAnyConditions(PostOfficeReq postOfficeReq) {
@@ -142,9 +155,9 @@ public class PostOfficeService {
         PostOffice checked =  getOffice(code);
         if(checked == null) return false;
         List<AlternateOffice> alternateOffices = getAlternateOfficeByOffice(code);
-        if(!alternateOffices.isEmpty()) throw new RuntimeException("you can't delete this office because it have alternate office");
+        if(alternateOffices != null) throw new RuntimeException("you can't delete this office because it have alternate office");
         List<OfficeKeyword> keywords = getOfficeKeywordByOffice(code);
-        if(!keywords.isEmpty()) throw new RuntimeException("you can't delete this office because it have office keyword");
+        if(keywords != null) throw new RuntimeException("you can't delete this office because it have office keyword");
         postOfficeRepo.deleteById(code);
         return true;
     }
@@ -169,7 +182,21 @@ public class PostOfficeService {
         return false;
     }
 
+    void validateKeywordRange(OfficeKeyword officeKeyword) throws NotFoundException {
 
+        if (officeKeyword.getNUMBER_RANGE_TYPE() == 0 || officeKeyword.getNUMBER_RANGE_TYPE() == 1) {
+            if (officeKeyword.getRANGE_END() < 0 || officeKeyword.getRANGE_START() < 0)
+                throw new NotFoundException("Range start and range end can't be negative");
+            if (officeKeyword.getNUMBER_RANGE_TYPE() == 0 && (officeKeyword.getRANGE_START() % 2 != 0 || officeKeyword.getRANGE_END() % 2 != 0))
+                throw new NotFoundException("Range start and range end must be even");
+            if (officeKeyword.getNUMBER_RANGE_TYPE() == 1 && (officeKeyword.getRANGE_START() % 2 == 0 || officeKeyword.getRANGE_END() % 2 == 0))
+                throw new NotFoundException("Range start and range end must be odd");
+            if (officeKeyword.getRANGE_START() >= officeKeyword.getRANGE_END())
+                throw new NotFoundException("Range start can't be bigger than range end");
+        }
+
+
+    }
 
     //Saving Keyword List
     public List<OfficeKeyword> checkKeyList(List<OfficeKeyword> officeKeywords,String code) throws NotFoundException {
@@ -178,6 +205,9 @@ public class PostOfficeService {
 
         for(OfficeKeyword  officeKeyword : officeKeywords){
              officeKeyword.setOFFICE_CODE(office);
+            if(officeKeyword.getNUMBER_RANGE() == 1) {
+                validateKeywordRange(officeKeyword);
+            }
         }
         return officeKeywords;
     }
@@ -241,16 +271,20 @@ public class PostOfficeService {
     }
 
     //Update OfficeKeyword
-    public List<OfficeKeyword> checkUpdateKeyList(List<OfficeKeyword> officeKeywords,String code){
+    public List<OfficeKeyword> checkUpdateKeyList(List<OfficeKeyword> officeKeywords,String code) throws NotFoundException {
         PostOffice office = getOffice(code);
         if(getOffice(code) == null) return null;
         for(OfficeKeyword  officeKeyword : officeKeywords){
             if(!officeKeywordRepo.findById(officeKeyword.getKEYWORD_CODE()).isPresent()) return null;
+            if(officeKeyword.getNUMBER_RANGE() == 1) {
+                validateKeywordRange(officeKeyword);
+            }
             officeKeyword.setOFFICE_CODE(office);
+
         }
         return officeKeywords;
     }
-    public List<OfficeKeyword> updateKeyList(List<OfficeKeyword> officeKeywords,String code){
+    public List<OfficeKeyword> updateKeyList(List<OfficeKeyword> officeKeywords,String code) throws NotFoundException {
 
         if(checkUpdateKeyList(officeKeywords,code) == null) return null;
         return saveKey(officeKeywords);

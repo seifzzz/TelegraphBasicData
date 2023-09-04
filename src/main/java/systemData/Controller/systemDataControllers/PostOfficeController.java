@@ -61,20 +61,16 @@ public class PostOfficeController {
         List<PostOffice> postOffices = postOfficeService.searchWithAllConditions(postOfficeReq,pageNumber,pageSize);
         if(postOffices == null) throw new NotFoundException("No Rows");
 
-
         HashMap<String, Object>  response = new HashMap<>();
         response.put("statusCode",200);
         response.put("message","successful request");
-
         response.put("total",postOfficeService.getCount());
         response.put("PageSize",pageSize);
         response.put("pageNumber",pageNumber);
         response.put("officesSizes",postOffices.size());
         response.put("body",postOffices);
 
-
         return  ResponseEntity.ok(response);
-
     }
 
     @PatchMapping
@@ -132,6 +128,18 @@ public class PostOfficeController {
         List<OfficeKeyword> officeKeywords = postOfficeService.getOfficeKeywordByOffice(code);
         if(officeKeywords == null) throw new NotFoundException("No Rows");
         return  ResponseEntity.ok(new Response(200,"successful Request",officeKeywords));
+    }
+    @GetMapping("country/{code}")
+    public ResponseEntity<?> PostOfficeCountry(@PathVariable String code) throws NotFoundException {
+        List<PostOffice> postOffices = postOfficeService.getPostOfficesByCountry(code);
+        if(postOffices == null) throw new NotFoundException("No Rows");
+        return  ResponseEntity.ok(new Response(200,"successful Request",postOffices));
+    }
+    @GetMapping("city/{code}")
+    public ResponseEntity<?> PostOfficeCity(@PathVariable String code) throws NotFoundException {
+        List<PostOffice> postOffices = postOfficeService.getPostOfficesByCity(code);
+        if(postOffices == null) throw new NotFoundException("No Rows");
+        return  ResponseEntity.ok(new Response(200,"successful Request",postOffices));
     }
 
     @PostMapping("{code}/officeKeyword/save")

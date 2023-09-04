@@ -30,15 +30,15 @@ public interface GlobalService {
 		
 	};
 	
-public static String getCurrentWorkerID() {
-		
-//		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		
-//		return user.getWORKER_ID();
-	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    return ((User)principal).getWORKER_ID();
-		
-	};
+//public static String getCurrentWorkerID() {
+//
+////		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+////
+////		return user.getWORKER_ID();
+//	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//	    return ((User)principal).getWORKER_ID();
+//
+//	};
 	
 public static String getCurrentEmpOrg() {
 		

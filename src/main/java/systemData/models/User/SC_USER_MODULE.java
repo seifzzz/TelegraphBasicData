@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "SC_USER_MODULE", schema = "FRM_WFM_SEC")
+@Table(name = "SC_USER_MODULE", schema = "MTS_SECURITY")
 public class SC_USER_MODULE {
 	
 	@Id

@@ -10,11 +10,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.WebApplicationInitializer;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableSwagger2
 @ComponentScan(basePackages = {"systemData"})
 @EntityScan("systemData.*")
 @EnableJpaRepositories({"systemData.repos"})

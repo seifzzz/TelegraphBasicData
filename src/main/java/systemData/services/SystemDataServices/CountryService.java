@@ -108,7 +108,8 @@ public class CountryService {
         if(country == null) throw new NotFoundException("country code doesn't exist");
         Optional<Language> language = languageRepo.findById(languageCountryReq.getLangCode());
         if(!language.isPresent())  throw new NotFoundException("language code doesn't exist");
-
+        Optional<CountryXLanguage> countryXLanguage = countryXLanguageRepo.findById(code,languageCountryReq.getLangCode());
+        if(countryXLanguage.isPresent()) throw new NotFoundException("language code already exist");
         var lang = CountryXLanguage.builder().countryXLanguageId(new CountryXLanguageId(country,language.get())).build();
 
         return countryXLanguageRepo.save(lang);
@@ -142,7 +143,8 @@ public class CountryService {
         if(country == null) throw new NotFoundException("country code doesn't exist");
         TariffPlan tariffPlan = tariffPlanService.getPlan(countryPlanReq.getPLAN_CODE());
         if(tariffPlan == null) throw new NotFoundException("plan code doesn't exist");
-
+        Optional<CountryPlan> countryPlan = countryPlanRepo.findById(code,countryPlanReq.getPLAN_CODE());
+        if(countryPlan.isPresent()) throw new NotFoundException("plan code already exist");
         var saved = CountryPlan.builder().DEFAULT_PLAN(countryPlanReq.getDEFAULT_PLAN()).
                     ACTIVE(countryPlanReq.getACTIVE()).PLAN_NAME(countryPlanReq.getPLAN_NAME()).
                 countryPlanId(new CountryPlanId(country,tariffPlan)).build();
@@ -187,13 +189,14 @@ public class CountryService {
         return countries.getContent();
     }
 
-    public Long getCountCountries(){
-        return countryRepo.count();
-     }
+//    public Long getCountCountries(){
+//        return countryRepo.count();
+//     }
+
 
     public boolean deleteCity(String code) throws NotFoundException {
         List<PostOffice> offices = postOfficeRepo.findByCityCode(code);
-        if(offices != null ) throw new RuntimeException("offices has child from city, you must delete it");
+        if(!offices.isEmpty()) throw new RuntimeException("offices has child from city, you must delete it");
 
         if(cityService.getCity(code) == null) throw new NotFoundException("Invalid Code");
         cityService.deleteCity(code);

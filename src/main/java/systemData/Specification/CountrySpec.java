@@ -46,7 +46,7 @@ public class CountrySpec {
             }
             if(country.getDEST_IND_ENG()!= null) {
                 predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("ENGLISH_NAME")),
+                        criteriaBuilder.lower(root.get("DEST_IND_ENG")),
                         "%" + country.getDEST_IND_ENG().toLowerCase() + "%"));
             }
             if (country.getACTIVE() != null){

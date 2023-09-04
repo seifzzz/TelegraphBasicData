@@ -3,6 +3,7 @@ package systemData.payload.response;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import systemData.models.User.SC_USER_MODULE;
 import org.springframework.security.core.GrantedAuthority;
 

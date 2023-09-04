@@ -31,7 +31,9 @@ import lombok.RequiredArgsConstructor;
 import systemData.payload.request.CHG_Password_Request;
 import systemData.payload.request.LoginRequest;
 import systemData.payload.response.APIResponse;
+import systemData.payload.response.Response;
 import systemData.repos.UserRepos.SysConfigDAO;
+import systemData.security.UserDetailsServiceImpl;
 import systemData.security.WLSJmxInterface;
 import systemData.services.UserService.AuthService;
 import systemData.services.UserService.AuthServiceImpl;
@@ -42,6 +44,8 @@ import java.net.SocketException;
 
 import javax.servlet.http.HttpServletResponse;
 
+
+
 @CrossOrigin("*")
 @Controller
 @RequestMapping("/api/auth")
@@ -50,130 +54,118 @@ public class AuthController {
 	private final AuthService authService;
 	private final AuthServiceImpl authServiceImpl;
 	private static final Logger logger = LogManager.getLogger(AuthController.class);
-	
+
 	@Autowired
 	private SysConfigService service;
 	@Autowired
-    SysConfigDAO dao;
+	SysConfigDAO dao;
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
 	private HttpServletResponse httpResponse;
 	@Autowired
 	private final AuthenticationManager authenticationManager;
-	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 	@Value("${referer.name}")
-    private String refererName;
-	
+	private String refererName;
+
 	WLSJmxInterface wlsAuth = new WLSJmxInterface();
-	
+
 	private String J_S_ID;
-	
+
 	@SuppressWarnings("static-access")
-	@PostMapping("/signin")
+	@PostMapping("signin")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws SocketException {
 		logger.info("Login Request for user: {} ", loginRequest.getUsername());
-		try { 
+		try {
 			APIResponse response = new APIResponse();
 			ResponseEntity<String> WLResponse;
-		    
+
 			if(loginRequest.getUsername() == null || loginRequest.getUsername().equals("")
 					|| loginRequest.getPassword() == null || loginRequest.getPassword().equals(""))
 			{
 				String userNAME=null;
 				request= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
-			            .getRequest();
+						.getRequest();
 				Cookie[] cookies = request.getCookies();
-			    if(cookies !=null){
-			    for(Cookie cookie : cookies){
-			    	System.out.println("cookie= " + cookie);
-			    	System.out.println("cookie getName=" + cookie.getName());
-			    	System.out.println("cookie getValue=" + cookie.getValue());
-			    	System.out.println("cookie JSESSIONID check=" + cookie.getName().equals("JSESSIONID"));
-			    	if(cookie.getName().equals("JSESSIONID")){
-			    		J_S_ID=cookie.getValue();
-						System.out.println("JSESSIONID in signin= "+ J_S_ID);
-						break;
-					 }
-			      }
-				    MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+				if(cookies !=null){
+					for(Cookie cookie : cookies){
+						System.out.println("cookie= " + cookie);
+						System.out.println("cookie getName=" + cookie.getName());
+						System.out.println("cookie getValue=" + cookie.getValue());
+						System.out.println("cookie JSESSIONID check=" + cookie.getName().equals("JSESSIONID"));
+						if(cookie.getName().equals("JSESSIONID")){
+							J_S_ID=cookie.getValue();
+							System.out.println("JSESSIONID in signin= "+ J_S_ID);
+							break;
+						}
+					}
+					MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 					headers.set("Host",request.getServerName()+ ":" +request.getServerPort());
 					headers.set("Cookie","JSESSIONID="+ J_S_ID);
 					headers.set("Content-Type", "application/json");
 					userNAME=authServiceImpl.retUserName();
 					System.out.println("userNAME= " + userNAME);
-			    }
-				if(userNAME==null || userNAME.equals(null))
+				}
+				if(userNAME == null)
 				{
-					response.setStatus(HttpStatus.UNAUTHORIZED);
-					response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-					response.setClientMessage("Missing username or password");
-					return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
+					return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+							"Invalid username or password","Unauthorized cookies"));
 				}
-					loginRequest.setUsername(userNAME);
-					response.setStatus(HttpStatus.OK);
-					response.setStatusCode(HttpStatus.OK.value());
-					response.setClientMessage(userNAME + " is already logged in");
-					return ResponseEntity.ok(authService.authenticateUser(loginRequest));
+
+				return  ResponseEntity.ok(new Response(HttpStatus.OK.value(),
+						"user is logged in",authServiceImpl.createOne(userNAME)));
 			}
-			else 
-     		{
+			else
+			{
 				if(wlsAuth.isUserLocked(loginRequest.getUsername())==true) {
-					  System.out.println("GWA EL LOCK ");
-						response.setStatus(HttpStatus.UNAUTHORIZED);
-						response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-						response.setClientMessage("User is locked ");
-						return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
+					return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+							"User is locked","Unauthorized"));
 				}
 				else {
-				  wlsAuth.postConstruct(service.getWLSConfig());
-				  String WL_IP=dao.getWLSConfig().getMAINSCREEN_IP();
-				  RestTemplate restTemplate=new RestTemplate();
-				  String decryptedPassword= GlobalService.decrypt(loginRequest.getPassword());
-				  loginRequest.setPassword(decryptedPassword);
-				  String WLURL= WL_IP+ refererName +"/j_security_check?j_username=" + loginRequest.getUsername() + "&j_password=" + loginRequest.getPassword().trim();
-				  HttpEntity<String> s = null;
-				  WLResponse=restTemplate.postForEntity(WLURL,s, String.class);
-				  if(WLResponse.getStatusCodeValue()==303) {
-					  System.out.println("GWA EL IF, REDIRECT= " + WLResponse.getStatusCode());
-					  String jsessionid = WLResponse.getHeaders().getFirst("Set-Cookie");
-                      jsessionid = jsessionid.split(";")[0].split("=")[1];
-                      System.out.println("jsessionid="+jsessionid);
-                      Cookie jsessionidCookie = new Cookie("JSESSIONID", jsessionid);
-                 	  jsessionidCookie.setPath("/");
-                      httpResponse.addCookie(jsessionidCookie);
-					  return ResponseEntity.ok(authService.authenticateUser(loginRequest));
-				  }
-				else {
-					    System.out.println("BARA EL IF= " + WLResponse.getStatusCode());
-						response.setStatus(HttpStatus.UNAUTHORIZED);
-						response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-						response.setClientMessage("Invalid username or password");
-						return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
-				  }
+					wlsAuth.postConstruct(service.getWLSConfig());
+					String WL_IP=dao.getWLSConfig().getMAINSCREEN_IP();
+					RestTemplate restTemplate=new RestTemplate();
+					String decryptedPassword= GlobalService.decrypt(loginRequest.getPassword());
+					loginRequest.setPassword(decryptedPassword);
+					String WLURL= WL_IP+ refererName +"/j_security_check?j_username=" + loginRequest.getUsername() + "&j_password=" + loginRequest.getPassword().trim();
+					HttpEntity<String> s = null;
+					WLResponse=restTemplate.postForEntity(WLURL,s, String.class);
+					if(WLResponse.getStatusCodeValue()==303) {
+
+
+
+						System.out.println("GWA EL IF, REDIRECT= " + WLResponse.getStatusCode());
+						String jsessionid = WLResponse.getHeaders().getFirst("Set-Cookie");
+						jsessionid = jsessionid.split(";")[0].split("=")[1];
+						System.out.println("jsessionid="+jsessionid);
+						Cookie jsessionidCookie = new Cookie("JSESSIONID", jsessionid);
+						jsessionidCookie.setPath("/");
+						httpResponse.addCookie(jsessionidCookie);
+
+						return  ResponseEntity.ok(new Response(HttpStatus.OK.value(),
+								"user is logged in",authServiceImpl.createOne(loginRequest.getUsername())));
+					}
+					else {
+						return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+								"Missing username or password","Unauthorized"));
+					}
 				}
-     		}
+			}
 		}
 		catch(Exception e)
 		{
-			if(wlsAuth.isUserLocked(loginRequest.getUsername())==true) {
-				  System.out.println("GWA EL LOCK MN Catch " );
-				    APIResponse response = new APIResponse();
-					response.setStatus(HttpStatus.UNAUTHORIZED);
-					response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-					response.setClientMessage("User is locked ");
-					return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
-			  }
-			e.printStackTrace();
-			APIResponse response = new APIResponse();
-			response.setStatus(HttpStatus.UNAUTHORIZED);
-			response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-			response.setClientMessage("Invalid username or password !");
-			return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
-			
+			if(wlsAuth.isUserLocked(loginRequest.getUsername())) {
+				return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+						"User is locked","Unauthorized"));
+			}
+			return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+					"Missing username or password","Unauthorized"));
+
 		}
-	 }  
-	
+	}
+
 	public HttpServletRequest getRequest() {
 		return request;
 	}
@@ -183,13 +175,13 @@ public class AuthController {
 		this.request = request;
 	}
 
-	@GetMapping("/Logout")
-	public ResponseEntity<APIResponse> Logout()
+	@GetMapping("logout")
+	public ResponseEntity<?> Logout()
 	{
 		APIResponse response = new APIResponse();
 		request= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
-	            .getRequest();
-		System.out.println("JSESSIONID in Logout=  "+request.getRequestedSessionId());	
+				.getRequest();
+		System.out.println("JSESSIONID in Logout=  "+request.getRequestedSessionId());
 		System.out.println("JSESSIONID Valid in Logout=  "+request.isRequestedSessionIdValid());
 		request.getSession().removeAttribute("userName");
 		request.getSession().removeAttribute("authorities");
@@ -202,38 +194,35 @@ public class AuthController {
 		httpResponse.addCookie(JSESSIONIDcookie);
 
 		System.out.println("Cookies Deleted");
-		
-	    response.setStatus(HttpStatus.OK);
-	    response.setStatusCode(HttpStatus.OK.value());
-	    response.setClientMessage("Logged out Successfully");
-	    return new ResponseEntity<APIResponse>(response, HttpStatus.OK);
+
+		return  ResponseEntity.ok(new Response(HttpStatus.OK.value(), "Logged out Successfully","success"));
 	}
-	
-	@PostMapping("/setParam")
-	ResponseEntity<APIResponse> setSessionParam(@RequestBody LoginRequest loginRequest){
+
+	@PostMapping("setParam")
+	ResponseEntity<?> setSessionParam(@RequestBody LoginRequest loginRequest){
 		request= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
-	            .getRequest();
-		System.out.println("JSESSIONID in Session=  "+request.getRequestedSessionId());	
-		System.out.println("JSESSIONID Valid in Session=  "+request.isRequestedSessionIdValid());	
+				.getRequest();
+		System.out.println("JSESSIONID in Session=  "+request.getRequestedSessionId());
+		System.out.println("JSESSIONID Valid in Session=  "+request.isRequestedSessionIdValid());
 		APIResponse response = new APIResponse();
-		
+
 		try {
 			if(loginRequest.getUsername() == null || loginRequest.getUsername() == "") {
 				String userNAME=null;
 				Cookie[] cookies = request.getCookies();
-			    if(cookies !=null){
-			    for(Cookie cookie : cookies){
-			    	System.out.println("cookie= " + cookie);
-			    	System.out.println("cookie getName=" + cookie.getName());
-			    	System.out.println("cookie getValue=" + cookie.getValue());
-			    	System.out.println("cookie JSESSIONID check=" + cookie.getName().equals("JSESSIONID"));
-			    	if(cookie.getName().equals("JSESSIONID")){
-			    		J_S_ID=cookie.getValue();
-						System.out.println("JSESSIONID in Session= "+ J_S_ID);
-						break;
-					 }
-			      }
-				    MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+				if(cookies !=null){
+					for(Cookie cookie : cookies){
+						System.out.println("cookie= " + cookie);
+						System.out.println("cookie getName=" + cookie.getName());
+						System.out.println("cookie getValue=" + cookie.getValue());
+						System.out.println("cookie JSESSIONID check=" + cookie.getName().equals("JSESSIONID"));
+						if(cookie.getName().equals("JSESSIONID")){
+							J_S_ID=cookie.getValue();
+							System.out.println("JSESSIONID in Session= "+ J_S_ID);
+							break;
+						}
+					}
+					MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 					headers.set("Host",request.getServerName()+ ":" +request.getServerPort());
 					headers.set("Cookie","JSESSIONID="+ J_S_ID);
 					headers.set("Content-Type", "application/json");
@@ -241,83 +230,68 @@ public class AuthController {
 					System.out.println("userNAME= " + userNAME);
 					if(userNAME==null || userNAME.equals(null))
 					{
-						response.setStatus(HttpStatus.UNAUTHORIZED);
-						response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-						response.setClientMessage("Unauthorized");
-						return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
+						return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+								"Missing username or password","Unauthorized"));
 					}
-					loginRequest.setUsername(userNAME);					
-			    }
+					loginRequest.setUsername(userNAME);
+				}
 			}
-			
+
 			String decryptedPassword= GlobalService.decrypt(loginRequest.getPassword());
 			loginRequest.setPassword(decryptedPassword);
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword().trim()));
-			
+
 			UserDetails user = (UserDetails) authentication.getPrincipal();
 
 			String username=user.getUsername();
 			request.getSession().setAttribute("userName", username);
-			
+
 			request.getSession().setAttribute("authorities", user.getAuthorities());
-			
+
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			response.setStatus(HttpStatus.OK);
-		    response.setStatusCode(HttpStatus.OK.value());
-		    response.setClientMessage("Success");
-		    return new ResponseEntity<APIResponse>(response, HttpStatus.OK);
+
+			return  ResponseEntity.ok(new Response(HttpStatus.OK.value(),
+					username,"Success"));
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			response.setStatus(HttpStatus.UNAUTHORIZED);
-			response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-			response.setClientMessage("Unauthorized!");
-			return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
+			return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+					"Missing username or password","Unauthorized"));
 		}
 	}
-	
+
 	@PostMapping("/changePassword")
-	ResponseEntity<APIResponse> changePassword(@RequestBody CHG_Password_Request chg_Password_Request){
+	ResponseEntity<?> changePassword(@RequestBody CHG_Password_Request chg_Password_Request){
 		APIResponse response = new APIResponse();
 		try {
 			String decOldPassword=GlobalService.decrypt(chg_Password_Request.getOldPassword());
 			String decNewPassword=GlobalService.decrypt(chg_Password_Request.getNewPassword());
-	
+
 			chg_Password_Request.setOldPassword(decOldPassword);
 			chg_Password_Request.setNewPassword(decNewPassword);
 			request= ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
-		            .getRequest();
+					.getRequest();
 			String username=request.getSession().getAttribute("userName").toString();
 			System.out.println("username= " + username);
-			
+
 			if(username==null || username=="") {
-				response.setStatus(HttpStatus.UNAUTHORIZED);
-				response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-				response.setClientMessage("Unauthorized");
-				return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
+				return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+						"Missing username or password","Unauthorized"));
 			}
 			else if(wlsAuth.changeUserPassword(username, chg_Password_Request.getOldPassword().trim(), chg_Password_Request.getNewPassword().trim())) {
-				response.setStatus(HttpStatus.OK);
-			    response.setStatusCode(HttpStatus.OK.value());
-			    response.setClientMessage("Success");
-			    return new ResponseEntity<APIResponse>(response, HttpStatus.OK);
+				return  ResponseEntity.ok(new Response(HttpStatus.OK.value(),
+						"password changed","success"));
 			}
 			else {
-				response.setStatus(HttpStatus.OK);
-				response.setStatusCode(HttpStatus.OK.value());
-				response.setClientMessage("Wrong password");
-				return new ResponseEntity<APIResponse>(response, HttpStatus.OK);
+				return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+						"wrong password","Unauthorized"));
 			}
 		}
-			catch(Exception e) {
-				response.setStatus(HttpStatus.UNAUTHORIZED);
-				response.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-				response.setClientMessage("Unauthorized !");
-				return new ResponseEntity<APIResponse>(response, HttpStatus.UNAUTHORIZED);
-			}
+		catch(Exception e) {
+			return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(HttpStatus.UNAUTHORIZED.value(),
+					"Missing username or password","Unauthorized"));
+		}
 	}
-	
+
 }

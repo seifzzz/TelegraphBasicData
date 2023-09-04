@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "WF_EMP_ROLE", schema = "MTS_WFM_2017")
+@Table(name = "WF_EMP_ROLE", schema = "MTS_SECURITY")
 
 public class WF_EMP_ROLE {
 	

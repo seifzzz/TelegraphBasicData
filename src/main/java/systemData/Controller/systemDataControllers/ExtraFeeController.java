@@ -27,17 +27,11 @@ public class ExtraFeeController {
         List<ExtraFee> extraFees = extraFeesService.allFees();
         return  ResponseEntity.ok(new Response(200,"All fees",extraFees));
     }
-    @GetMapping("all/fees/{item}")
+    @GetMapping("all/fees/{item}/plans")
     public ResponseEntity<?> getValuesByItemsNo(@PathVariable Integer item) throws NotFoundException {
-        List<TariffPlan_ExtraFee> extraFees = extraFeesService.getAddValue(item);
+        List<TariffFeeReq> extraFees = extraFeesService.getAddValue(item);
         return  ResponseEntity.ok(new Response(200,"Successful request",extraFees));
     }
-    @DeleteMapping("all/fees/{item}")
-    public ResponseEntity<?> DeleteFeeAndValue(@PathVariable Integer item) throws NotFoundException {
-        boolean deleted = extraFeesService.deleteFee(item);
-        return  ResponseEntity.ok(new Response(200,"items is deleted","successful Request"));
-    }
-
     @PostMapping("create")
     public ResponseEntity<?> AddFee(@RequestBody ExtraFee fee) throws NotFoundException {
         ExtraFee saved = extraFeesService.createFee(fee);
@@ -49,9 +43,16 @@ public class ExtraFeeController {
         return  ResponseEntity.ok(new Response(200,"Fee is updated",saved));
     }
 
-    @PatchMapping("update/{item}")
-    public ResponseEntity<?> updateFeeValues(@RequestBody List<TariffFeeReq> req) throws NotFoundException {
-        List<TariffPlan_ExtraFee> updated = extraFeesService.updateAddValue(req);
+    @PatchMapping("update/{item}/plans")
+    public ResponseEntity<?> updateFeeValues(@PathVariable Integer item, @RequestBody List<TariffFeeReq> req) throws NotFoundException {
+        List<TariffFeeReq> updated = extraFeesService.updateAddValue(req ,item);
         return  ResponseEntity.ok(new Response(200,"Items is updated",updated));
     }
+
+    @DeleteMapping("all/fees/{item}")
+    public ResponseEntity<?> DeleteFeeAndValue(@PathVariable Integer item) throws NotFoundException {
+        boolean deleted = extraFeesService.deleteFee(item);
+        return  ResponseEntity.ok(new Response(200,"items is deleted","successful Request"));
+    }
+
 }

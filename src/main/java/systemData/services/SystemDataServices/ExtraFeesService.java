@@ -10,6 +10,7 @@ import systemData.repos.SystemDataRepos.ExtraFeesRepo;
 import systemData.repos.SystemDataRepos.TariffPlanRepo;
 import systemData.repos.SystemDataRepos.TariffPlan_ExtraFeeRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +39,12 @@ public class ExtraFeesService {
     }
 
 
-    public List<TariffPlan_ExtraFee> getAddValue(Integer item) throws NotFoundException {
+    public List<TariffFeeReq> getAddValue(Integer item) throws NotFoundException {
         List<TariffPlan_ExtraFee> planExtraFeeList = tariffFeesRepo.FindByItemNo(item);
         if(planExtraFeeList.isEmpty()) throw new NotFoundException("id doesn't exist");
-        return planExtraFeeList;
+        List<TariffFeeReq> list = new ArrayList<>();
+        for(TariffPlan_ExtraFee i :planExtraFeeList) list.add(new TariffFeeReq(i));
+        return list;
     }
 
     public boolean deleteFee(Integer item) throws NotFoundException {
@@ -64,19 +67,21 @@ public class ExtraFeesService {
         return extraFeesRepo.save(fee);
     }
 
-    public List<TariffPlan_ExtraFee> updateAddValue(List<TariffFeeReq> req) throws NotFoundException {
+    public List<TariffFeeReq> updateAddValue(List<TariffFeeReq> req, Integer item) throws NotFoundException {
         if(req.isEmpty()) throw new NotFoundException("id doesn't exist");
-
+        List<TariffFeeReq> list = new ArrayList<>();
 
         for(TariffFeeReq i : req){
-            if(tariffPlanRepo.findById(i.getPlanCode()).isPresent() && extraFeesRepo.findById(i.getItemNo()).isPresent()) {
+            if(tariffPlanRepo.findById(i.getPlanCode()).isPresent() && extraFeesRepo.findById(item).isPresent()) {
+                i.setItemNo(item);
                 tariffFeesRepo.UpdateValid(i.getPlanCode(), i.getItemNo(), i.getValid());
+
             }
             else {
                 throw new NotFoundException("Invalid plan code or fee code");
             }
             }
-           return tariffFeesRepo.FindByItemNo(req.get(0).getItemNo());
+           return getAddValue(item);
     }
 
     }

@@ -30,23 +30,16 @@ public class TariffPlan {
     Integer URGENT_ENABLE;
     @JsonProperty("decorationEnable")
     Integer DECORATION_ENABLE;
-
     @JsonProperty("wordPrice")
     Long WORD_PRICE;
-
-
     @JsonProperty("decorationPrice")
     Long DECORATION_PRICE;
-
     @JsonProperty("poPrice")
     Long PO_PRICE;
-
     @JsonProperty("urgentPrice")
     Long URGENT_PRICE;
-
     @JsonProperty("templatePrice")
     Long TEMPLATE_PRICE;
-
     @JsonProperty("deliveryPrice")
     Long DELIVERY_PRICE;
     @JsonProperty("admin")

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name="SC_USER_PERMISSION", schema = "FRM_WFM_SEC")
+@Table(name="SC_USER_PERMISSION", schema = "MTS_SECURITY")
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @AllArgsConstructor
@@ -24,5 +24,5 @@ public class UserPermission{
 	private Long MODULE_ID;
 	private String USER_NAME;
 	private String PERMISSION_NAME;
-	
+
 }
